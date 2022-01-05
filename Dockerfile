@@ -62,6 +62,7 @@ COPY --from=build /app/.next/ ./.next
 
 # Copy NestJS files
 COPY --from=build /app/dist/ ./dist
+COPY --from=build /app/schema.gql ./schema.gql
 
 EXPOSE 3000
 
