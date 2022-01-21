@@ -17,14 +17,13 @@ import {
   CopyIcon,
 } from './Styled';
 import { StatusDot, DetailLine } from './CardGeneric';
-import { appUrls } from '../../utils/appUrls';
 
 const { publicRuntimeConfig } = getConfig();
-const { disableLinks } = publicRuntimeConfig;
+const { disableLinks, mempoolUrl } = publicRuntimeConfig;
 
-export const shorten = (text: string): string => {
+export const shorten = (text: string, length?: number): string => {
   if (!text) return '';
-  const amount = 6;
+  const amount = length || 6;
   const beginning = text.slice(0, amount);
   const end = text.slice(text.length - amount);
 
@@ -66,7 +65,7 @@ export const getAddressLink = (transaction: string | null | undefined) => {
       </>
     );
   }
-  const link = `${appUrls.blockchainAddress}${transaction}`;
+  const link = `${mempoolUrl}/address/${transaction}`;
   return (
     <>
       <SmallLink href={link} target="_blank">
@@ -87,7 +86,7 @@ export const getTransactionLink = (transaction: string | null | undefined) => {
       </>
     );
   }
-  const link = `${appUrls.blockchain}${transaction}`;
+  const link = `${mempoolUrl}/tx/${transaction}`;
   return (
     <>
       <SmallLink href={link} target="_blank">
@@ -115,7 +114,7 @@ export const getNodeLink = (
   if (!publicKey || (alias && alias === 'Node not found')) {
     return 'Node not found';
   }
-  const link = `${appUrls.oneml}${publicKey}`;
+  const link = `https://amboss.space/node/${publicKey}`;
   const text = alias ? alias : shorten(publicKey);
   return (
     <>
@@ -127,6 +126,22 @@ export const getNodeLink = (
         </SmallLink>
       )}
       {copyLink(publicKey)}
+    </>
+  );
+};
+
+export const getChannelLink = (id: string) => {
+  const link = `https://amboss.space/edge/${id}`;
+  return (
+    <>
+      {disableLinks ? (
+        id
+      ) : (
+        <SmallLink href={link} target="_blank">
+          {id}
+        </SmallLink>
+      )}
+      {copyLink(id)}
     </>
   );
 };

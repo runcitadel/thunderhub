@@ -13,8 +13,10 @@ import { Inject } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { toWithError } from 'src/server/utils/async';
-
-const errorNode = { alias: 'Node not found' };
+import { FetchService } from '../../fetch/fetch.service';
+import { ConfigService } from '@nestjs/config';
+import { gql } from 'graphql-tag';
+import { getNetwork } from 'src/server/utils/network';
 
 @Resolver(LightningBalance)
 export class LightningBalanceResolver {
@@ -131,30 +133,48 @@ export class NodeResolver {
 export class NodeFieldResolver {
   constructor(
     private nodeService: NodeService,
+    private fetchService: FetchService,
+    private configService: ConfigService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
   ) {}
 
   @ResolveField()
   async node(
     @Parent()
-    {
-      publicKey,
-      withoutChannels = true,
-    }: { publicKey: string; withoutChannels: boolean },
+    { publicKey }: { publicKey: string },
     @CurrentUser() { id }: UserId
   ) {
     if (!publicKey) {
-      this.logger.debug('ExpectedPublicKeyToGetNode');
-      return errorNode;
+      this.logger.error('No public key to get node');
+      return null;
     }
 
-    const [info, error] = await toWithError(
-      this.nodeService.getNode(id, publicKey, withoutChannels)
+    const nodeInfo = await this.nodeService.getWalletInfo(id);
+    const network = getNetwork(nodeInfo?.chains?.[0] || '');
+
+    if (network === 'btc') {
+      const { data, error } = await this.fetchService.graphqlFetchWithProxy(
+        this.configService.get('urls.amboss'),
+        gql`
+          query GetNodeAlias($pubkey: String!) {
+            getNodeAlias(pubkey: $pubkey)
+          }
+        `,
+        { pubkey: publicKey }
+      );
+
+      if (data?.getNodeAlias && !error) {
+        return { alias: data.getNodeAlias, public_key: publicKey };
+      }
+    }
+
+    const [info, nodeError] = await toWithError(
+      this.nodeService.getNode(id, publicKey, true)
     );
 
-    if (error || !info) {
+    if (nodeError || !info) {
       this.logger.debug(`Error getting node with key: ${publicKey}`);
-      return errorNode;
+      return null;
     }
 
     return { ...info, public_key: publicKey };

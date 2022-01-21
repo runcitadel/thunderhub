@@ -14,6 +14,19 @@ type Throttler = {
 
 type Urls = {
   mempool: string;
+  amboss: string;
+  tbase: string;
+  ticker: string;
+  fees: string;
+  boltz: string;
+  github: string;
+  lnMarkets: string;
+  lnMarketsExchange: string;
+};
+
+type Headers = {
+  'apollographql-client-name': string;
+  'apollographql-client-version': string;
 };
 
 export type YamlEnvs = {
@@ -39,6 +52,7 @@ type ConfigType = {
   yamlEnvs: YamlEnvs;
   masterPasswordOverride: string;
   disable2FA: boolean;
+  headers: Headers;
 };
 
 export default (): ConfigType => {
@@ -52,8 +66,25 @@ export default (): ConfigType => {
     `Getting ${isProduction ? 'production' : 'development'} env variables.`
   );
 
-  const urls = {
-    mempool: process.env.MEMPOOL_URL || 'https://mempool.space',
+  const mempool = process.env.MEMPOOL_URL || 'https://mempool.space';
+
+  const urls: Urls = {
+    mempool,
+    amboss: 'https://api.amboss.space/graphql',
+    fees: `${mempool}/api/v1/fees/recommended`,
+    tbase: 'https://api.thunderbase.io/v1',
+    ticker: 'https://blockchain.info/ticker',
+    github: 'https://api.github.com/repos/apotdevin/thunderhub/releases/latest',
+    lnMarkets: 'https://api.lnmarkets.com/v1',
+    lnMarketsExchange: 'https://lnmarkets.com',
+    boltz: 'https://boltz.exchange/api',
+  };
+
+  const npmVersion = process.env.npm_package_version || '0.0.0';
+
+  const headers = {
+    'apollographql-client-name': 'thunderhub',
+    'apollographql-client-version': npmVersion,
   };
 
   const sso = {
@@ -76,7 +107,6 @@ export default (): ConfigType => {
   };
 
   const config: ConfigType = {
-    isProduction,
     logJson: process.env.LOG_JSON === 'true',
     masterPasswordOverride: process.env.MASTER_PASSWORD_OVERRIDE || '',
     disable2FA: process.env.DISABLE_TWOFA === 'true',
@@ -86,6 +116,8 @@ export default (): ConfigType => {
     cookiePath: process.env.COOKIE_PATH || '',
     accountConfigPath: process.env.ACCOUNT_CONFIG_PATH || '',
     torProxy: process.env.TOR_PROXY_SERVER || '',
+    isProduction,
+    headers,
     throttler,
     sso,
     urls,
