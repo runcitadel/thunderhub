@@ -15,6 +15,9 @@ import { transports, format } from 'winston';
 import configuration from './config/configuration';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
+import { WsModule } from './modules/ws/ws.module';
+import { SubModule } from './modules/sub/sub.module';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 const { combine, timestamp, prettyPrint, json } = format;
 
@@ -36,8 +39,10 @@ export type JwtObjectType = {
 
 @Module({
   imports: [
+    AuthenticationModule,
+    SubModule,
+    WsModule,
     ApiModule,
-    ViewModule,
     NodeModule,
     AuthenticationModule,
     FilesModule,
@@ -48,7 +53,8 @@ export type JwtObjectType = {
       load: [configuration],
       envFilePath: ['.env.local', '.env'],
     }),
-    GraphQLModule.forRootAsync({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         autoSchemaFile: 'schema.gql',
@@ -103,6 +109,8 @@ export type JwtObjectType = {
           : combine(timestamp(), prettyPrint()),
       }),
     }),
+    // ViewModule has to be the last because of the wildcard controller
+    ViewModule,
   ],
 })
 export class AppModule {}

@@ -131,22 +131,6 @@ export type BosResult = {
   rebalanced: Scalars['String'];
 };
 
-export type BosScore = {
-  __typename?: 'BosScore';
-  alias: Scalars['String'];
-  position: Scalars['Float'];
-  public_key: Scalars['String'];
-  score: Scalars['Float'];
-  updated: Scalars['String'];
-};
-
-export type BosScoreInfo = {
-  __typename?: 'BosScoreInfo';
-  count: Scalars['Float'];
-  first?: Maybe<BosScore>;
-  last?: Maybe<BosScore>;
-};
-
 export type ChainAddressSend = {
   __typename?: 'ChainAddressSend';
   confirmationCount: Scalars['Float'];
@@ -184,7 +168,6 @@ export type Channel = {
   is_opening: Scalars['Boolean'];
   is_partner_initiated: Scalars['Boolean'];
   is_private: Scalars['Boolean'];
-  is_static_remote_key?: Maybe<Scalars['Boolean']>;
   local_balance: Scalars['Float'];
   local_reserve: Scalars['Float'];
   partner_fee_info: SingleChannel;
@@ -365,16 +348,22 @@ export type Forward = {
   tokens: Scalars['Float'];
 };
 
+export type GetInvoicesType = {
+  __typename?: 'GetInvoicesType';
+  invoices: Array<InvoiceType>;
+  next?: Maybe<Scalars['String']>;
+};
+
 export type GetMessages = {
   __typename?: 'GetMessages';
   messages: Array<Message>;
   token?: Maybe<Scalars['String']>;
 };
 
-export type GetResumeType = {
-  __typename?: 'GetResumeType';
-  offset: Scalars['Float'];
-  resume: Array<Transaction>;
+export type GetPaymentsType = {
+  __typename?: 'GetPaymentsType';
+  next?: Maybe<Scalars['String']>;
+  payments: Array<PaymentType>;
 };
 
 export type Hops = {
@@ -496,6 +485,7 @@ export type Mutation = {
   removeTwofaSecret: Scalars['Boolean'];
   sendMessage: Scalars['Float'];
   sendToAddress: ChainAddressSend;
+  toggleAutoBackups: Scalars['Boolean'];
   updateFees: Scalars['Boolean'];
   updateMultipleFees: Scalars['Boolean'];
   updateTwofaSecret: Scalars['Boolean'];
@@ -689,12 +679,14 @@ export type NetworkInfoInput = {
   is_ok_to_create_invoices: Scalars['Boolean'];
   is_ok_to_create_macaroons: Scalars['Boolean'];
   is_ok_to_derive_keys: Scalars['Boolean'];
+  is_ok_to_get_access_ids: Scalars['Boolean'];
   is_ok_to_get_chain_transactions: Scalars['Boolean'];
   is_ok_to_get_invoices: Scalars['Boolean'];
   is_ok_to_get_payments: Scalars['Boolean'];
   is_ok_to_get_peers: Scalars['Boolean'];
   is_ok_to_get_wallet_info: Scalars['Boolean'];
   is_ok_to_pay: Scalars['Boolean'];
+  is_ok_to_revoke_access_ids: Scalars['Boolean'];
   is_ok_to_send_to_chain_addresses: Scalars['Boolean'];
   is_ok_to_sign_bytes: Scalars['Boolean'];
   is_ok_to_sign_messages: Scalars['Boolean'];
@@ -706,12 +698,6 @@ export type NetworkInfoInput = {
 export type Node = {
   __typename?: 'Node';
   node?: Maybe<NodeType>;
-};
-
-export type NodeBosHistory = {
-  __typename?: 'NodeBosHistory';
-  info: BosScoreInfo;
-  scores: Array<BosScore>;
 };
 
 export type NodeInfo = {
@@ -909,6 +895,7 @@ export type Query = {
   getAccountingReport: Scalars['String'];
   getAmbossLoginToken: Scalars['String'];
   getAmbossUser?: Maybe<AmbossUser>;
+  getBackupState: Scalars['Boolean'];
   getBackups: Scalars['String'];
   getBaseCanConnect: Scalars['Boolean'];
   getBaseNodes: Array<BaseNode>;
@@ -917,7 +904,6 @@ export type Query = {
   getBitcoinPrice: Scalars['String'];
   getBoltzInfo: BoltzInfoType;
   getBoltzSwapStatus: Array<BoltzSwap>;
-  getBosScores: Array<BosScore>;
   getChainTransactions: Array<ChainTransaction>;
   getChannel: SingleChannel;
   getChannelReport: ChannelReport;
@@ -927,6 +913,7 @@ export type Query = {
   getForwards: Array<Forward>;
   getHello: Scalars['String'];
   getInvoiceStatusChange: Scalars['String'];
+  getInvoices: GetInvoicesType;
   getLatestVersion: Scalars['String'];
   getLightningAddressInfo: PayRequest;
   getLightningAddresses: Array<LightningAddress>;
@@ -937,12 +924,11 @@ export type Query = {
   getNetworkInfo: NetworkInfo;
   getNode: Node;
   getNodeBalances: Balances;
-  getNodeBosHistory: NodeBosHistory;
   getNodeInfo: NodeInfo;
   getNodeSocialInfo: LightningNodeSocialInfo;
+  getPayments: GetPaymentsType;
   getPeers: Array<Peer>;
   getPendingChannels: Array<PendingChannel>;
-  getResume: GetResumeType;
   getServerAccounts: Array<ServerAccount>;
   getTimeHealth: ChannelsTimeHealth;
   getTwofaSecret: TwofaResult;
@@ -951,6 +937,7 @@ export type Query = {
   getWalletInfo: Wallet;
   recoverFunds: Scalars['Boolean'];
   signMessage: Scalars['String'];
+  verifyBackup: Scalars['Boolean'];
   verifyBackups: Scalars['Boolean'];
   verifyMessage: Scalars['String'];
 };
@@ -987,6 +974,10 @@ export type QueryGetInvoiceStatusChangeArgs = {
   id: Scalars['String'];
 };
 
+export type QueryGetInvoicesArgs = {
+  token?: InputMaybe<Scalars['String']>;
+};
+
 export type QueryGetLightningAddressInfoArgs = {
   address: Scalars['String'];
 };
@@ -1000,17 +991,12 @@ export type QueryGetNodeArgs = {
   withoutChannels?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type QueryGetNodeBosHistoryArgs = {
-  pubkey: Scalars['String'];
-};
-
 export type QueryGetNodeSocialInfoArgs = {
   pubkey: Scalars['String'];
 };
 
-export type QueryGetResumeArgs = {
-  limit?: InputMaybe<Scalars['Float']>;
-  offset?: InputMaybe<Scalars['Float']>;
+export type QueryGetPaymentsArgs = {
+  token?: InputMaybe<Scalars['String']>;
 };
 
 export type QueryRecoverFundsArgs = {
@@ -1019,6 +1005,10 @@ export type QueryRecoverFundsArgs = {
 
 export type QuerySignMessageArgs = {
   message: Scalars['String'];
+};
+
+export type QueryVerifyBackupArgs = {
+  backup: Scalars['String'];
 };
 
 export type QueryVerifyBackupsArgs = {
@@ -1059,8 +1049,6 @@ export type SingleChannel = {
   transaction_vout: Scalars['Float'];
   updated_at?: Maybe<Scalars['String']>;
 };
-
-export type Transaction = InvoiceType | PaymentType;
 
 export type TwofaResult = {
   __typename?: 'TwofaResult';

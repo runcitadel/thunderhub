@@ -10,6 +10,9 @@ import { DangerView } from '../../src/views/settings/Danger';
 import { ChatSettings } from '../../src/views/settings/Chat';
 import { PrivacySettings } from '../../src/views/settings/Privacy';
 import { Security } from '../../src/views/settings/Security';
+import { NetworkInfo } from '../../src/views/home/networkInfo/NetworkInfo';
+import { NotificationSettings } from '../../src/views/settings/Notifications';
+import { AmbossSettings } from '../../src/views/settings/Amboss';
 
 export const ButtonRow = styled.div`
   width: auto;
@@ -24,11 +27,14 @@ const SettingsView = () => {
   return (
     <>
       <InterfaceSettings />
+      <NotificationSettings />
+      <AmbossSettings />
       <Security />
       <DashboardSettings />
       <PrivacySettings />
       <ChatSettings />
       <DangerView />
+      <NetworkInfo />
     </>
   );
 };

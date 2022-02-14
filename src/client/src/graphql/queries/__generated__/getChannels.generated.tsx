@@ -20,7 +20,6 @@ export type GetChannelsQuery = {
     is_opening: boolean;
     is_partner_initiated: boolean;
     is_private: boolean;
-    is_static_remote_key?: boolean | null | undefined;
     local_balance: number;
     local_reserve: number;
     partner_public_key: string;
@@ -29,8 +28,8 @@ export type GetChannelsQuery = {
     remote_balance: number;
     remote_reserve: number;
     sent: number;
-    time_offline?: number | null | undefined;
-    time_online?: number | null | undefined;
+    time_offline?: number | null;
+    time_online?: number | null;
     transaction_id: string;
     transaction_vout: number;
     unsettled_balance: number;
@@ -46,32 +45,26 @@ export type GetChannelsQuery = {
     };
     partner_node_info: {
       __typename?: 'Node';
-      node?: { __typename?: 'NodeType'; alias: string } | null | undefined;
+      node?: { __typename?: 'NodeType'; alias: string } | null;
     };
     partner_fee_info: {
       __typename?: 'SingleChannel';
-      node_policies?:
-        | {
-            __typename?: 'NodePolicy';
-            base_fee_mtokens?: string | null | undefined;
-            fee_rate?: number | null | undefined;
-            cltv_delta?: number | null | undefined;
-            max_htlc_mtokens?: string | null | undefined;
-            min_htlc_mtokens?: string | null | undefined;
-          }
-        | null
-        | undefined;
-      partner_node_policies?:
-        | {
-            __typename?: 'NodePolicy';
-            base_fee_mtokens?: string | null | undefined;
-            fee_rate?: number | null | undefined;
-            cltv_delta?: number | null | undefined;
-            max_htlc_mtokens?: string | null | undefined;
-            min_htlc_mtokens?: string | null | undefined;
-          }
-        | null
-        | undefined;
+      node_policies?: {
+        __typename?: 'NodePolicy';
+        base_fee_mtokens?: string | null;
+        fee_rate?: number | null;
+        cltv_delta?: number | null;
+        max_htlc_mtokens?: string | null;
+        min_htlc_mtokens?: string | null;
+      } | null;
+      partner_node_policies?: {
+        __typename?: 'NodePolicy';
+        base_fee_mtokens?: string | null;
+        fee_rate?: number | null;
+        cltv_delta?: number | null;
+        max_htlc_mtokens?: string | null;
+        min_htlc_mtokens?: string | null;
+      } | null;
     };
   }>;
 };
@@ -88,7 +81,6 @@ export const GetChannelsDocument = gql`
       is_opening
       is_partner_initiated
       is_private
-      is_static_remote_key
       local_balance
       local_reserve
       partner_public_key

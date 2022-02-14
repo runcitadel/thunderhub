@@ -2,6 +2,118 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.13.6](https://github.com/apotdevin/thunderhub/compare/v0.13.5...v0.13.6) (2022-02-02)
+
+
+### Bug Fixes
+
+* invalid token redirect and error handling ([194dafb](https://github.com/apotdevin/thunderhub/commit/194dafb940500f8bccbc35f068495a82d8503fdb))
+
+
+### Styling
+
+* channel list button ([12f9d63](https://github.com/apotdevin/thunderhub/commit/12f9d6388d5543424fdb104f22b5e79238b285ec))
+
+
+### Improvements
+
+* auto backups ([b1a7dba](https://github.com/apotdevin/thunderhub/commit/b1a7dba752f0b4d2b929572432b61b1aff07a1f8))
+* linting ([ca1c729](https://github.com/apotdevin/thunderhub/commit/ca1c7292a4a65b4fa1196626e618ca631e57d3af))
+* notification aliases ([90e6f97](https://github.com/apotdevin/thunderhub/commit/90e6f97b153fe8ac803a72416a901bfc8ca066ed))
+
+### [0.13.5](https://github.com/apotdevin/thunderhub/compare/v0.13.4...v0.13.5) (2022-01-31)
+
+
+### Bug Fixes
+
+* mutation account ([832644e](https://github.com/apotdevin/thunderhub/commit/832644e1cc7e23ef8de1a16133ebf3ae1a9d47ac))
+
+### [0.13.4](https://github.com/apotdevin/thunderhub/compare/v0.13.3...v0.13.4) (2022-01-30)
+
+
+### Improvements
+
+* notification settings ([ee3f772](https://github.com/apotdevin/thunderhub/commit/ee3f772ff3fd080ba3175cd68d4e55814608f403))
+
+### [0.13.3](https://github.com/apotdevin/thunderhub/compare/v0.13.2...v0.13.3) (2022-01-30)
+
+
+### Improvements
+
+* ws ([#394](https://github.com/apotdevin/thunderhub/issues/394)) ([5f0c140](https://github.com/apotdevin/thunderhub/commit/5f0c140046ffd32c6c1d524da453bc289e8190c0))
+
+### [0.13.2](https://github.com/apotdevin/thunderhub/compare/v0.13.1...v0.13.2) (2022-01-30)
+
+
+### Bug Fixes
+
+* accounting report ([5b6dc40](https://github.com/apotdevin/thunderhub/commit/5b6dc4022f6e761f9f0fddc409a5803171994c9f))
+* lnurl utility func ([3035b1a](https://github.com/apotdevin/thunderhub/commit/3035b1afd96f57fc8175c6d19f9e648e312248b7))
+* move dev dependency ([af89bf4](https://github.com/apotdevin/thunderhub/commit/af89bf4270e49f3af973689274529318f3376d82))
+
+
+### Improvements
+
+* small ui change ([6d7171d](https://github.com/apotdevin/thunderhub/commit/6d7171dea9b28161bfa8736a0c201ffa7c82ce79))
+
+### [0.13.1](https://github.com/apotdevin/thunderhub/compare/v0.13.0...v0.13.1) (2022-01-28)
+
+
+### Bug Fixes
+
+* next version error ([5dab190](https://github.com/apotdevin/thunderhub/commit/5dab1905406ab66de2ed752c87c3c22366a81903))
+
+## [0.13.0](https://github.com/apotdevin/thunderhub/compare/v0.12.31...v0.13.0) (2022-01-28)
+
+
+### Bug Fixes
+
+* alias sorting ([36de6cd](https://github.com/apotdevin/thunderhub/commit/36de6cd664adf32bda8e23bf18ddbdce7b67629b))
+* basePath ([f99f253](https://github.com/apotdevin/thunderhub/commit/f99f2530bf6b44287aa415f12773b7507e05e331))
+* client urls ([80ff6bf](https://github.com/apotdevin/thunderhub/commit/80ff6bfb25b3a161bbb65e9a4d359b50ee2f8cd5))
+* get node network ([eed5e50](https://github.com/apotdevin/thunderhub/commit/eed5e5072a2be066a0a70182e7b92da99982b4ed))
+* github action ([ed234f2](https://github.com/apotdevin/thunderhub/commit/ed234f2fcf1e05f0164fdf51d2dacaf1ea00b998))
+* mempool env var ([51a2f66](https://github.com/apotdevin/thunderhub/commit/51a2f663e87ba7b820653f11ff28447741cc349f))
+* npm audit ([4eba4fd](https://github.com/apotdevin/thunderhub/commit/4eba4fd5a51da06f3b2554ebd46b6060dbda57ef))
+* type error ([803f55e](https://github.com/apotdevin/thunderhub/commit/803f55e7a942b31210b07e2397f47a5159770fab))
+* types ([24722d4](https://github.com/apotdevin/thunderhub/commit/24722d4f8444a4c8574913a186c207058bbc75db))
+* undefined resolver types ([2b33b25](https://github.com/apotdevin/thunderhub/commit/2b33b2577a1d0b59ff37d368679b91be0d472e50))
+
+
+### Docs
+
+* extra script ([903df02](https://github.com/apotdevin/thunderhub/commit/903df0200f46784a8833824bf0895ac7bf4e415c))
+
+
+### Improvements
+
+* add 2fa ([8cef0ec](https://github.com/apotdevin/thunderhub/commit/8cef0ec3259778756ab940d85ec213ce72fa8770))
+* add script ([38d98d8](https://github.com/apotdevin/thunderhub/commit/38d98d87cee5d5d6875ea4e5bd01aeb18cde8e04))
+* bump ([71839a7](https://github.com/apotdevin/thunderhub/commit/71839a7b89c6c9cd021a613d238a53bbb3470eb8))
+* bump deps ([bc16069](https://github.com/apotdevin/thunderhub/commit/bc1606979533e38f4c4d6671e4c323f29dae0793))
+* bump deps ([f17a089](https://github.com/apotdevin/thunderhub/commit/f17a08964ecaeed9ce9e281062ab6e36d45b27f2))
+* bump deps ([#370](https://github.com/apotdevin/thunderhub/issues/370)) ([4da0c0d](https://github.com/apotdevin/thunderhub/commit/4da0c0d17d710fb03638a390fd63656735e46bc8))
+* bump deps ([#377](https://github.com/apotdevin/thunderhub/issues/377)) ([8469cc8](https://github.com/apotdevin/thunderhub/commit/8469cc8d23557029377a56baf6f11e05ade1cfe2))
+* cleanup log ([74a8acd](https://github.com/apotdevin/thunderhub/commit/74a8acd3983e98300bb1bb382e7c0b9ab0e7ebbe))
+* cleanup server urls ([0e241a7](https://github.com/apotdevin/thunderhub/commit/0e241a70657e1ebb8f52d0e1e1712d1cfb31024c))
+* disable homepage transactions ([e092ece](https://github.com/apotdevin/thunderhub/commit/e092ece430b2297edddf3e6865ba79947dd817e2))
+* improve logging ([aad9c79](https://github.com/apotdevin/thunderhub/commit/aad9c79391601a7b653560ab549d77271181ebdd))
+* improve transaction performance ([105a69e](https://github.com/apotdevin/thunderhub/commit/105a69e21f31b2871a0dd440ff70ced0de513dea))
+* migration ([a6ad30b](https://github.com/apotdevin/thunderhub/commit/a6ad30b599e774dc3e844b9cd57fad53f70474c2))
+* npm audit fix ([88d27c2](https://github.com/apotdevin/thunderhub/commit/88d27c2e16a5e845e738f62f7dec56f9850db0f6))
+* query headers ([10010db](https://github.com/apotdevin/thunderhub/commit/10010db7711fbc0a0635a29874f345468899abb6))
+* small fixes ([4d4bee2](https://github.com/apotdevin/thunderhub/commit/4d4bee26cdad727918a832718d265f2bd6fb13e9))
+* small fixes ([69e1a5c](https://github.com/apotdevin/thunderhub/commit/69e1a5cbb079467f97eed3b4b7057bf1b794c6c2))
+* ui changes ([#380](https://github.com/apotdevin/thunderhub/issues/380)) ([348b872](https://github.com/apotdevin/thunderhub/commit/348b872be995fa3cd221cfb824a02a48ac1724ac))
+
+
+### CI
+
+* docker images ([f694448](https://github.com/apotdevin/thunderhub/commit/f69444845f998987b5b1716adce69fd2b7145f24))
+* prod env on start ([6c953df](https://github.com/apotdevin/thunderhub/commit/6c953df82e90906e420907d8976bd9df660cd66d))
+* remove tsc ([14eb0a3](https://github.com/apotdevin/thunderhub/commit/14eb0a3307a6b0d88fc5c8fd1eb4338b5dc7d821))
+* standard release ([69eab42](https://github.com/apotdevin/thunderhub/commit/69eab42258ada2d636fec4bb7e2d39c411118bb9))
+
 ### [0.12.31](https://github.com/apotdevin/thunderhub/compare/v0.12.30...v0.12.31) (2021-10-31)
 
 

@@ -1,9 +1,12 @@
 import { useCallback, useMemo } from 'react';
-import { ArrowDown, ArrowUp, Check, Circle } from 'react-feather';
+import { ArrowDown, ArrowUp, Check, ChevronRight, Circle } from 'react-feather';
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
 import { BalanceBars } from '../../../components/balance';
-import { ColorButton } from '../../../components/buttons/colorButton/ColorButton';
-import { getChannelLink } from '../../../components/generic/helpers';
+import {
+  getChannelLink,
+  getNodeLink,
+} from '../../../components/generic/helpers';
 import { DarkSubTitle } from '../../../components/generic/Styled';
 import { Link } from '../../../components/link/Link';
 import { LoadingCard } from '../../../components/loading/LoadingCard';
@@ -14,6 +17,14 @@ import { useLocalStorage } from '../../../hooks/UseLocalStorage';
 import { chartColors } from '../../../styles/Themes';
 import { getErrorContent } from '../../../utils/error';
 import { blockToTime, formatSeconds, getPercent } from '../../../utils/helpers';
+
+const S = {
+  link: styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+};
 
 const getBar = (top: number, bottom: number) => {
   const percent = (top / bottom) * 100;
@@ -121,6 +132,9 @@ export const ChannelTable = () => {
         ...pending,
         ...partnerInfo,
         alias: c.partner_node_info.node?.alias || 'Unknown',
+        undercaseAlias: (
+          c.partner_node_info.node?.alias || 'Unknown'
+        ).toLowerCase(),
         channel_age_duplicate: c.channel_age,
         percentOnline: getPercent(timeOnline, timeOffline),
         percentOnlineText: `${getPercent(timeOnline, timeOffline)}%`,
@@ -187,9 +201,12 @@ export const ChannelTable = () => {
           </div>
         ),
         viewAction: (
-          <ColorButton>
-            <Link to={`/channels/${c.id}`}> View</Link>
-          </ColorButton>
+          <Link to={`/channels/${c.id}`}>
+            <S.link>
+              View
+              <ChevronRight size={12} />
+            </S.link>
+          </Link>
         ),
       };
     });
@@ -222,9 +239,14 @@ export const ChannelTable = () => {
         columns: [
           {
             Header: 'Peer',
-            accessor: 'alias',
+            accessor: 'undercaseAlias',
             Cell: ({ row }: any) => (
-              <div style={{ whiteSpace: 'nowrap' }}>{row.original.alias}</div>
+              <div style={{ whiteSpace: 'nowrap' }}>
+                {getNodeLink(
+                  row.original.partner_public_key,
+                  row.original.alias
+                )}
+              </div>
             ),
           },
           {

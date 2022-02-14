@@ -99,20 +99,6 @@ type BosResult {
   rebalanced: String!
 }
 
-type BosScore {
-  alias: String!
-  position: Float!
-  public_key: String!
-  score: Float!
-  updated: String!
-}
-
-type BosScoreInfo {
-  count: Float!
-  first: BosScore
-  last: BosScore
-}
-
 type ChainAddressSend {
   confirmationCount: Float!
   id: String!
@@ -147,7 +133,6 @@ type Channel {
   is_opening: Boolean!
   is_partner_initiated: Boolean!
   is_private: Boolean!
-  is_static_remote_key: Boolean
   local_balance: Float!
   local_reserve: Float!
   partner_fee_info: SingleChannel!
@@ -313,14 +298,19 @@ type Forward {
   tokens: Float!
 }
 
+type GetInvoicesType {
+  invoices: [InvoiceType!]!
+  next: String
+}
+
 type GetMessages {
   messages: [Message!]!
   token: String
 }
 
-type GetResumeType {
-  offset: Float!
-  resume: [Transaction!]!
+type GetPaymentsType {
+  next: String
+  payments: [PaymentType!]!
 }
 
 type Hops {
@@ -432,6 +422,7 @@ type Mutation {
   removeTwofaSecret(token: String!): Boolean!
   sendMessage(maxFee: Float, message: String!, messageType: String, publicKey: String!, tokens: Float): Float!
   sendToAddress(address: String!, fee: Float, sendAll: Boolean, target: Float, tokens: Float): ChainAddressSend!
+  toggleAutoBackups: Boolean!
   updateFees(base_fee_tokens: Float, cltv_delta: Float, fee_rate: Float, max_htlc_mtokens: String, min_htlc_mtokens: String, transaction_id: String, transaction_vout: Float): Boolean!
   updateMultipleFees(channels: [UpdateRoutingFeesParams!]!): Boolean!
   updateTwofaSecret(secret: String!, token: String!): Boolean!
@@ -454,12 +445,14 @@ input NetworkInfoInput {
   is_ok_to_create_invoices: Boolean!
   is_ok_to_create_macaroons: Boolean!
   is_ok_to_derive_keys: Boolean!
+  is_ok_to_get_access_ids: Boolean!
   is_ok_to_get_chain_transactions: Boolean!
   is_ok_to_get_invoices: Boolean!
   is_ok_to_get_payments: Boolean!
   is_ok_to_get_peers: Boolean!
   is_ok_to_get_wallet_info: Boolean!
   is_ok_to_pay: Boolean!
+  is_ok_to_revoke_access_ids: Boolean!
   is_ok_to_send_to_chain_addresses: Boolean!
   is_ok_to_sign_bytes: Boolean!
   is_ok_to_sign_messages: Boolean!
@@ -470,11 +463,6 @@ input NetworkInfoInput {
 
 type Node {
   node: NodeType
-}
-
-type NodeBosHistory {
-  info: BosScoreInfo!
-  scores: [BosScore!]!
 }
 
 type NodeInfo {
@@ -655,6 +643,7 @@ type Query {
   getAccountingReport(category: String, currency: String, fiat: String, month: String, year: String): String!
   getAmbossLoginToken: String!
   getAmbossUser: AmbossUser
+  getBackupState: Boolean!
   getBackups: String!
   getBaseCanConnect: Boolean!
   getBaseNodes: [BaseNode!]!
@@ -663,7 +652,6 @@ type Query {
   getBitcoinPrice: String!
   getBoltzInfo: BoltzInfoType!
   getBoltzSwapStatus(ids: [String!]!): [BoltzSwap!]!
-  getBosScores: [BosScore!]!
   getChainTransactions: [ChainTransaction!]!
   getChannel(id: String!): SingleChannel!
   getChannelReport: ChannelReport!
@@ -673,6 +661,7 @@ type Query {
   getForwards(days: Float!): [Forward!]!
   getHello: String!
   getInvoiceStatusChange(id: String!): String!
+  getInvoices(token: String): GetInvoicesType!
   getLatestVersion: String!
   getLightningAddressInfo(address: String!): PayRequest!
   getLightningAddresses: [LightningAddress!]!
@@ -683,12 +672,11 @@ type Query {
   getNetworkInfo: NetworkInfo!
   getNode(publicKey: String!, withoutChannels: Boolean): Node!
   getNodeBalances: Balances!
-  getNodeBosHistory(pubkey: String!): NodeBosHistory!
   getNodeInfo: NodeInfo!
   getNodeSocialInfo(pubkey: String!): LightningNodeSocialInfo!
+  getPayments(token: String): GetPaymentsType!
   getPeers: [Peer!]!
   getPendingChannels: [PendingChannel!]!
-  getResume(limit: Float, offset: Float): GetResumeType!
   getServerAccounts: [ServerAccount!]!
   getTimeHealth: ChannelsTimeHealth!
   getTwofaSecret: TwofaResult!
@@ -697,6 +685,7 @@ type Query {
   getWalletInfo: Wallet!
   recoverFunds(backup: String!): Boolean!
   signMessage(message: String!): String!
+  verifyBackup(backup: String!): Boolean!
   verifyBackups(backup: String!): Boolean!
   verifyMessage(message: String!, signature: String!): String!
 }
@@ -727,8 +716,6 @@ type SingleChannel {
   transaction_vout: Float!
   updated_at: String
 }
-
-union Transaction = InvoiceType | PaymentType
 
 type TwofaResult {
   secret: String!

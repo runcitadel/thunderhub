@@ -8,7 +8,6 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 module.exports = {
   reactStrictMode: true,
-  distDir: '../../.next',
   poweredByHeader: false,
   basePath: process.env.BASE_PATH || '',
   publicRuntimeConfig: {
@@ -25,7 +24,5 @@ module.exports = {
     disableLnMarkets: process.env.DISABLE_LNMARKETS === 'true',
     noVersionCheck: process.env.NO_VERSION_CHECK === 'true',
     logoutUrl: process.env.LOGOUT_URL || '',
-    disableTransactionsHomepage:
-      process.env.DISABLE_TRANSACTIONS_HOMEPAGE === 'true',
   },
 };

@@ -54,6 +54,7 @@ import {
   getPendingChainBalance,
   getChannelBalance,
   getWalletVersion,
+  verifyBackup,
   verifyBackups,
   recoverFundsFromChannels,
   getBackups,
@@ -171,6 +172,17 @@ export class LndService {
         is_omitting_channels,
       })
     );
+  }
+
+  async verifyBackup(account: EnrichedAccount, backup: string) {
+    const result = await to<{ is_valid: boolean }>(
+      verifyBackup({
+        lnd: account.lnd,
+        backup,
+      })
+    );
+    console.log(result);
+    return result;
   }
 
   async verifyBackups(
@@ -324,11 +336,11 @@ export class LndService {
     return to<GetForwards>(getForwards({ lnd: account.lnd, ...options }));
   }
 
-  async getPayments(account: EnrichedAccount, options: GetPaymentsParams) {
+  async getPayments(account: EnrichedAccount, options: GetPaymentsParams = {}) {
     return to<GetPayments>(getPayments({ lnd: account.lnd, ...options }));
   }
 
-  async getInvoices(account: EnrichedAccount, options: GetPaymentsParams) {
+  async getInvoices(account: EnrichedAccount, options: GetPaymentsParams = {}) {
     return to<GetInvoices>(getInvoices({ lnd: account.lnd, ...options }));
   }
 

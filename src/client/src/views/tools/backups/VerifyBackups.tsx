@@ -6,7 +6,7 @@ import { getErrorContent } from '../../../utils/error';
 import {
   SingleLine,
   DarkSubTitle,
-  Separation,
+  SubCard,
 } from '../../../components/generic/Styled';
 import { ColorButton } from '../../../components/buttons/colorButton/ColorButton';
 import { Input } from '../../../components/input';
@@ -30,12 +30,13 @@ export const VerifyBackups = () => {
   }, [data, loading]);
 
   const renderInput = () => (
-    <>
+    <SubCard>
       <SingleLine>
         <NoWrap>
-          <DarkSubTitle>Backup String: </DarkSubTitle>
+          <DarkSubTitle>Backup String:</DarkSubTitle>
         </NoWrap>
         <Input
+          placeholder="Content from file"
           withMargin={'8px 0 0'}
           onChange={e => setBackupString(e.target.value)}
         />
@@ -53,8 +54,7 @@ export const VerifyBackups = () => {
       >
         Verify
       </ColorButton>
-      <Separation />
-    </>
+    </SubCard>
   );
 
   return (
